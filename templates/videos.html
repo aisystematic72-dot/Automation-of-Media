@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Media to Publish</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #111827;
+            color: white;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .media-card {
+            background: #1f2937;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+        }
+
+        img,
+        video {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .caption {
+            color: #d1d5db;
+            line-height: 1.5;
+        }
+
+        .url {
+            font-size: 13px;
+            word-break: break-all;
+            color: #93c5fd;
+        }
+
+        .select-box {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        #publishBtn {
+            display: none;
+            padding: 14px 28px;
+            background: #16a34a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Media Ready to Publish</h1>
+
+    {% if media_items %}
+
+        <form action="/publish" method="POST">
+
+            {% for item in media_items %}
+
+                <div class="media-card">
+
+                    <p>
+                        <strong>Type:</strong>
+                        {{ item.media_type }}
+                    </p>
+
+                    <p class="caption">
+                        <strong>Caption:</strong>
+                        {{ item.caption }}
+                    </p>
+
+
+                    {% if item.media_type|lower == "image" %}
+
+                        <img
+                            src="{{ item.cloudinary_url }}"
+                            alt="Media Image"
+                        >
+
+                    {% elif item.media_type|lower == "video" %}
+
+                        <video controls>
+
+                            <source
+                                src="{{ item.cloudinary_url }}"
+                                type="video/mp4"
+                            >
+
+                            Your browser does not support video playback.
+
+                        </video>
+
+                    {% endif %}
+
+
+                    <p class="url">
+                        <strong>Cloudinary URL:</strong><br>
+                        {{ item.cloudinary_url }}
+                    </p>
+
+
+                    <div class="select-box">
+
+                        <label>
+
+                            <input
+                                type="checkbox"
+                                name="media"
+                                value="{{ item.row_number }}"
+                            >
+
+                            Select this media
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+
+            <button
+                id="publishBtn"
+                type="submit"
+            >
+                Publish It
+            </button>
+
+        </form>
+
+
+    {% else %}
+
+        <p>No unpublished media found.</p>
+
+    {% endif %}
+
+</div>
+
+
+<script>
+
+    const checkboxes =
+        document.querySelectorAll('input[name="media"]');
+
+    const publishBtn =
+        document.getElementById("publishBtn");
+
+
+    checkboxes.forEach(function(checkbox) {
+
+        checkbox.addEventListener("change", function() {
+
+            const selected =
+                document.querySelectorAll(
+                    'input[name="media"]:checked'
+                );
+
+            if (selected.length > 0) {
+
+                publishBtn.style.display = "block";
+
+            } else {
+
+                publishBtn.style.display = "none";
+
+            }
+
+        });
+
+    });
+
+</script>
+
+</body>
+</html>

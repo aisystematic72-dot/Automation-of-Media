@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publish Result</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #111827;
+            color: white;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .result-card {
+            background: #1f2937;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .success {
+            color: #22c55e;
+        }
+
+        .error {
+            color: #ef4444;
+        }
+
+        button {
+            padding: 12px 20px;
+            margin: 10px 5px 0 0;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .back-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .contact-btn {
+            background: #dc2626;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Publish Results</h1>
+
+    {% for result in results %}
+
+        <div class="result-card">
+
+            {% if result.success %}
+
+                <h3 class="success">
+                    Post Published Successfully
+                </h3>
+
+                <p>Row: {{ result.row }}</p>
+
+            {% else %}
+
+                <h3 class="error">
+                    Post Failed
+                </h3>
+
+                <p>
+                    <strong>Row:</strong>
+                    {{ result.row }}
+                </p>
+
+                <p>
+                    <strong>Reason:</strong>
+                    {{ result.error }}
+                </p>
+
+                <a href="/contact-team">
+                    <button type="button" class="contact-btn">
+                        Contact Team
+                    </button>
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    {% endfor %}
+
+    <a href="/videos">
+        <button class="back-btn">
+            Back to Media
+        </button>
+    </a>
+
+    <a href="/dashboard">
+        <button class="back-btn">
+            Dashboard
+        </button>
+    </a>
+
+</div>
+
+</body>
+</html>

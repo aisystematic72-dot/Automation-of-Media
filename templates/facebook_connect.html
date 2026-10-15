@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Connect Facebook</title>
+<style>body{font-family:Arial,sans-serif;background:#f5f7fb;color:#172b4d;padding:24px}main{max-width:560px;margin:40px auto;background:white;padding:32px;border-radius:12px}select,button{padding:12px;margin:12px 0;width:100%}button{background:#1877f2;color:white;border:0;border-radius:6px}a{color:#1877f2}</style></head>
+<body><main>
+{% if error %}<h1>Facebook connection</h1><p role="alert">{{ error }}</p>
+{% elif connected %}<h1>Facebook connected</h1><p>Your selected Page is ready. Return to the dashboard to select posts and publish.</p>
+{% else %}<h1>Select your Facebook Page</h1><p>Choose the Page where your selected posts will be published.</p>
+<form method="post"><input type="hidden" name="csrf" value="{{ csrf }}">
+<label for="page">Facebook Page</label><select id="page" name="page_id" required>
+{% for page in pages %}<option value="{{ page.id }}">{{ page.name }}</option>{% endfor %}
+</select><button type="submit">Connect this Page</button></form>{% endif %}
+<a href="{{ url_for('dashboard') }}">Return to dashboard</a>
+</main></body></html>

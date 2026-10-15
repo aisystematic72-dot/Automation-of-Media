@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Social Media Dashboard</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #111827;
+            color: white;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        .platform {
+            background: #1f2937;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+        }
+
+        .platform-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        button {
+            padding: 10px 18px;
+            margin: 5px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .connect-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .save-btn {
+            background: #16a34a;
+            color: white;
+        }
+
+        .help-btn {
+            background: #dc2626;
+            color: white;
+        }
+
+        .tutorial-btn {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .next-btn {
+            background: #2563eb;
+            color: white;
+            padding: 14px 30px;
+            font-size: 16px;
+        }
+
+        .connect-form {
+            display: none;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #374151;
+        }
+
+        input {
+            display: block;
+            width: 95%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .next-section {
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Connect Your Social Media Accounts</h1>
+
+
+    <!-- FACEBOOK -->
+
+    <div class="platform">
+
+        <div class="platform-header">
+
+            <h2>Facebook</h2>
+
+            <a class="connect-btn" href="{{ url_for('facebook.start') }}" target="_blank" rel="noopener">{{ 'Reconnect Facebook' if facebook_connected else 'Connect Facebook' }}</a>
+            {% if facebook_connected %}<span>Connected</span>{% endif %}
+        </div>
+        <p>Connect through Facebook and choose a Page you manage.</p>
+    </div>
+
+
+    <!-- INSTAGRAM -->
+
+    <div class="platform">
+
+        <div class="platform-header">
+
+            <h2>Instagram</h2>
+
+            {% if instagram_connected %}
+
+                <button class="save-btn" disabled>
+                    Connected
+                </button>
+
+            {% else %}
+
+                <button
+                    class="connect-btn"
+                    onclick="showInstagramForm()"
+                >
+                    Connect It
+                </button>
+
+            {% endif %}
+
+        </div>
+
+
+        {% if not instagram_connected %}
+
+        <div id="instagramForm" class="connect-form">
+
+            <form action="/connect-instagram" method="POST">
+
+                <input
+                    type="text"
+                    name="instagram_user_id"
+                    placeholder="Instagram User ID"
+                    required
+                >
+
+                <input
+                    type="text"
+                    name="instagram_access_token"
+                    placeholder="Instagram Access Token"
+                    required
+                >
+
+                <button
+                    class="save-btn"
+                    type="submit"
+                >
+                    Save Connection
+                </button>
+
+            </form>
+
+
+            <a href="/contact-team">
+                <button
+                    class="help-btn"
+                    type="button"
+                >
+                    Contact Team
+                </button>
+            </a>
+
+
+            <button
+                class="tutorial-btn"
+                type="button"
+            >
+                View Tutorial
+            </button>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- TIKTOK -->
+
+    <div class="platform">
+
+        <div class="platform-header">
+
+            <h2>TikTok</h2>
+
+            <button
+                class="connect-btn"
+                type="button"
+            >
+                Connect It
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- NEXT PAGE -->
+
+    {% if facebook_connected or instagram_connected %}
+
+        <div class="next-section">
+
+            <a href="/videos">
+
+                <button
+                    class="next-btn"
+                    type="button"
+                >
+                    Next Page
+                </button>
+
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+<script>
+
+    function showFacebookForm() {
+
+        const form =
+            document.getElementById("facebookForm");
+
+        if (form.style.display === "block") {
+            form.style.display = "none";
+        } else {
+            form.style.display = "block";
+        }
+    }
+
+
+    function showInstagramForm() {
+
+        const form =
+            document.getElementById("instagramForm");
+
+        if (form.style.display === "block") {
+            form.style.display = "none";
+        } else {
+            form.style.display = "block";
+        }
+    }
+
+</script>
+
+</body>
+</html>

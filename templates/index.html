@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Social Media Automation</title>
+
+
+    <style>
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #111827,
+                    #1f2937
+                );
+
+            color: white;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            min-height: 100vh;
+
+        }
+
+
+        .container {
+
+            text-align: center;
+
+            width: 90%;
+
+            max-width: 700px;
+
+        }
+
+
+        h1 {
+
+            font-size: 48px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        p {
+
+            color: #d1d5db;
+
+            margin-bottom: 30px;
+
+            font-size: 18px;
+
+        }
+
+
+        button {
+
+            padding: 14px 28px;
+
+            margin: 10px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            font-size: 16px;
+
+            cursor: pointer;
+
+        }
+
+
+        .login {
+
+            background: #2563eb;
+
+            color: white;
+
+        }
+
+
+        .signup {
+
+            background: white;
+
+            color: #111827;
+
+        }
+
+
+        .form-box {
+
+            display: none;
+
+            margin-top: 25px;
+
+            background: white;
+
+            color: #111827;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+        }
+
+
+        input {
+
+            width: 90%;
+
+            padding: 12px;
+
+            margin: 8px 0;
+
+            border: 1px solid #ccc;
+
+            border-radius: 6px;
+
+            font-size: 15px;
+
+        }
+
+
+        .submit-btn {
+
+            background: #2563eb;
+
+            color: white;
+
+            width: 95%;
+
+        }
+
+
+        button:hover {
+
+            opacity: 0.9;
+
+        }
+
+
+        .forgot-link {
+
+            display: inline-block;
+
+            margin-top: 12px;
+
+            color: #2563eb;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+            text-decoration: underline;
+
+        }
+
+
+        .message {
+
+            margin-top: 15px;
+
+            font-size: 14px;
+
+        }
+
+
+        .success-message {
+
+            color: #16a34a;
+
+        }
+
+
+        .error-message {
+
+            color: #dc2626;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <h1>
+        Automate Your Social Media Advertisements
+    </h1>
+
+
+    <p>
+
+        Connect your social media accounts and publish your content
+
+        automatically from one simple dashboard.
+
+    </p>
+
+
+    <button
+        class="login"
+        onclick="showLogin()"
+    >
+
+        Login
+
+    </button>
+
+
+    <button
+        class="signup"
+        onclick="showSignup()"
+    >
+
+        Create Account
+
+    </button>
+
+
+
+    <!-- ============================= -->
+    <!-- LOGIN FORM -->
+    <!-- ============================= -->
+
+
+    <div
+        id="loginForm"
+        class="form-box"
+    >
+
+        <h2>Login</h2>
+
+
+        <form
+            action="/login"
+            method="POST"
+        >
+
+
+            <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                required
+            >
+
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+            >
+
+
+            <button
+                class="submit-btn"
+                type="submit"
+            >
+
+                Login
+
+            </button>
+
+
+        </form>
+
+
+        <span
+            class="forgot-link"
+            onclick="showForgotPassword()"
+        >
+
+            Forgot Password?
+
+        </span>
+
+
+    </div>
+
+
+
+    <!-- ============================= -->
+    <!-- CREATE ACCOUNT FORM -->
+    <!-- ============================= -->
+
+
+    <div
+        id="signupForm"
+        class="form-box"
+    >
+
+
+        <h2>Create Account</h2>
+
+
+        <form
+            action="/signup"
+            method="POST"
+        >
+
+
+            <input
+                type="text"
+                name="name"
+                placeholder="Full Name"
+                required
+            >
+
+
+            <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                required
+            >
+
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+            >
+
+
+            <button
+                class="submit-btn"
+                type="submit"
+            >
+
+                Create Account
+
+            </button>
+
+
+        </form>
+
+
+    </div>
+
+
+
+    <!-- ============================= -->
+    <!-- FORGOT PASSWORD FORM -->
+    <!-- ============================= -->
+
+
+    <div
+        id="forgotPasswordForm"
+        class="form-box"
+    >
+
+
+        <h2>Forgot Password</h2>
+
+
+        <p style="color:#4b5563;">
+
+            Enter your registered email address.
+
+        </p>
+
+
+        <input
+            type="email"
+            id="resetEmail"
+            placeholder="Registered Email"
+            required
+        >
+
+
+        <button
+            class="submit-btn"
+            type="button"
+            onclick="sendResetCode()"
+        >
+
+            Send Verification Code
+
+        </button>
+
+
+        <div
+            id="forgotMessage"
+            class="message"
+        ></div>
+
+
+        <span
+            class="forgot-link"
+            onclick="showLogin()"
+        >
+
+            Back to Login
+
+        </span>
+
+
+    </div>
+
+
+
+    <!-- ============================= -->
+    <!-- VERIFICATION CODE FORM -->
+    <!-- ============================= -->
+
+
+    <div
+        id="verifyCodeForm"
+        class="form-box"
+    >
+
+
+        <h2>Verify Code</h2>
+
+
+        <p style="color:#4b5563;">
+
+            Enter the 6-digit code sent to your email.
+
+        </p>
+
+
+        <input
+            type="text"
+            id="verificationCode"
+            placeholder="6-digit Verification Code"
+            maxlength="6"
+            required
+        >
+
+
+        <button
+            class="submit-btn"
+            type="button"
+            onclick="verifyResetCode()"
+        >
+
+            Verify Code
+
+        </button>
+
+
+        <div
+            id="verifyMessage"
+            class="message"
+        ></div>
+
+
+    </div>
+
+    <!-- ============================= -->
+    <!-- NEW PASSWORD FORM -->
+    <!-- ============================= -->
+
+    <div
+        id="newPasswordForm"
+        class="form-box"
+    >
+
+        <h2>Create New Password</h2>
+
+        <p style="color:#4b5563;">
+            Enter your new password.
+        </p>
+
+        <input
+            type="password"
+            id="newPassword"
+            placeholder="New Password"
+            required
+        >
+
+        <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Confirm New Password"
+            required
+        >
+
+        <button
+            class="submit-btn"
+            type="button"
+            onclick="resetPassword()"
+        >
+            Update Password
+        </button>
+
+        <div
+            id="resetPasswordMessage"
+            class="message"
+        ></div>
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+    function hideAllForms() {
+
+        document.getElementById(
+            "loginForm"
+        ).style.display = "none";
+
+        document.getElementById(
+            "signupForm"
+        ).style.display = "none";
+
+        document.getElementById(
+            "forgotPasswordForm"
+        ).style.display = "none";
+
+        document.getElementById(
+            "verifyCodeForm"
+        ).style.display = "none";
+
+        document.getElementById(
+            "newPasswordForm"
+        ).style.display = "none";
+    }
+
+
+
+    function showLogin() {
+
+        hideAllForms();
+
+        document.getElementById(
+            "loginForm"
+        ).style.display = "block";
+
+    }
+
+
+
+    function showSignup() {
+
+        hideAllForms();
+
+        document.getElementById(
+            "signupForm"
+        ).style.display = "block";
+
+    }
+
+
+
+    function showForgotPassword() {
+
+        hideAllForms();
+
+        document.getElementById(
+            "forgotPasswordForm"
+        ).style.display = "block";
+
+    }
+
+
+
+    async function sendResetCode() {
+
+        const email =
+            document.getElementById(
+                "resetEmail"
+            ).value.trim();
+
+
+        const messageBox =
+            document.getElementById(
+                "forgotMessage"
+            );
+
+
+        messageBox.innerHTML = "";
+
+
+        if (!email) {
+
+            messageBox.className =
+                "message error-message";
+
+            messageBox.innerHTML =
+                "Please enter your email.";
+
+            return;
+
+        }
+
+
+        const formData =
+            new FormData();
+
+
+        formData.append(
+            "email",
+            email
+        );
+
+
+        try {
+
+
+            const response =
+                await fetch(
+                    "/forgot-password",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (result.success) {
+
+
+                sessionStorage.setItem(
+                    "reset_email",
+                    email
+                );
+
+
+                messageBox.className =
+                    "message success-message";
+
+
+                messageBox.innerHTML =
+                    result.message;
+
+
+                setTimeout(
+                    function() {
+
+                        hideAllForms();
+
+                        document.getElementById(
+                            "verifyCodeForm"
+                        ).style.display =
+                            "block";
+
+                    },
+                    800
+                );
+
+
+            } else {
+
+
+                messageBox.className =
+                    "message error-message";
+
+
+                messageBox.innerHTML =
+                    result.message;
+
+            }
+
+
+        } catch (error) {
+
+
+            messageBox.className =
+                "message error-message";
+
+
+            messageBox.innerHTML =
+                "Something went wrong. Please try again.";
+
+        }
+
+    }
+
+
+
+    async function verifyResetCode() {
+
+
+        const email =
+            sessionStorage.getItem(
+                "reset_email"
+            );
+
+
+        const code =
+            document.getElementById(
+                "verificationCode"
+            ).value.trim();
+
+
+        const messageBox =
+            document.getElementById(
+                "verifyMessage"
+            );
+
+
+        messageBox.innerHTML = "";
+
+
+        if (!code) {
+
+
+            messageBox.className =
+                "message error-message";
+
+
+            messageBox.innerHTML =
+                "Please enter the verification code.";
+
+
+            return;
+
+        }
+
+
+        const formData =
+            new FormData();
+
+
+        formData.append(
+            "email",
+            email
+        );
+
+
+        formData.append(
+            "code",
+            code
+        );
+
+
+        try {
+
+
+            const response =
+                await fetch(
+                    "/verify-reset-code",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (result.success) {
+
+                messageBox.className =
+                    "message success-message";
+
+                messageBox.innerHTML =
+                    result.message;
+
+                setTimeout(
+                    function() {
+
+                        hideAllForms();
+
+                        document.getElementById(
+                            "newPasswordForm"
+                        ).style.display = "block";
+
+                    },
+                    700
+                );
+
+
+
+
+            } else {
+
+
+                messageBox.className =
+                    "message error-message";
+
+
+                messageBox.innerHTML =
+                    result.message;
+
+            }
+
+
+        } catch (error) {
+
+
+            messageBox.className =
+                "message error-message";
+
+
+            messageBox.innerHTML =
+                "Something went wrong. Please try again.";
+
+        }
+
+    }
+
+    async function resetPassword() {
+
+        const email =
+            sessionStorage.getItem(
+                "reset_email"
+            );
+
+        const newPassword =
+            document.getElementById(
+                "newPassword"
+            ).value;
+
+        const confirmPassword =
+            document.getElementById(
+                "confirmPassword"
+            ).value;
+
+        const messageBox =
+            document.getElementById(
+                "resetPasswordMessage"
+            );
+
+        messageBox.innerHTML = "";
+
+        if (!newPassword || !confirmPassword) {
+
+            messageBox.className =
+                "message error-message";
+
+            messageBox.innerHTML =
+                "Please fill in both password fields.";
+
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+
+            messageBox.className =
+                "message error-message";
+
+            messageBox.innerHTML =
+                "Passwords do not match.";
+
+            return;
+        }
+
+        if (newPassword.length < 8) {
+
+            messageBox.className =
+                "message error-message";
+
+            messageBox.innerHTML =
+                "Password must be at least 8 characters long.";
+
+            return;
+        }
+
+        const formData =
+            new FormData();
+
+        formData.append(
+            "email",
+            email
+        );
+
+        formData.append(
+            "new_password",
+            newPassword
+        );
+
+        formData.append(
+            "confirm_password",
+            confirmPassword
+        );
+
+        try {
+
+            const response =
+                await fetch(
+                    "/reset-password",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+            const result =
+                await response.json();
+
+            if (result.success) {
+
+                messageBox.className =
+                    "message success-message";
+
+                messageBox.innerHTML =
+                    result.message;
+
+                sessionStorage.removeItem(
+                    "reset_email"
+                );
+
+                setTimeout(
+                    function() {
+
+                        hideAllForms();
+
+                        document.getElementById(
+                            "loginForm"
+                        ).style.display = "block";
+
+                    },
+                    1200
+                );
+
+            } else {
+
+                messageBox.className =
+                    "message error-message";
+
+                messageBox.innerHTML =
+                    result.message;
+
+            }
+
+        } catch (error) {
+
+            messageBox.className =
+                "message error-message";
+
+            messageBox.innerHTML =
+                "Something went wrong. Please try again.";
+        }
+    }
+
+</script>
+
+
+</body>
+
+</html>
