@@ -1,0 +1,8 @@
+Flask
+Werkzeug
+gspread
+cloudinary
+requests
+python-dotenv
+google-auth
+gunicorn
